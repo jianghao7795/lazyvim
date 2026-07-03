@@ -14,6 +14,10 @@ return {
         virtual_text = {
           -- 格式化函数：将多行错误合并为单行，超长截断
           format = function(diagnostic)
+            -- 过滤 TS 诊断码 7016 (Could not find a declaration file)
+            if diagnostic.code == 7016 then
+              return nil
+            end
             local msg = diagnostic.message:gsub("\n", " ")
             if #msg > 120 then
               msg = msg:sub(1, 117) .. "..."
@@ -47,6 +51,13 @@ return {
           settings = {
             vtsls = {
               autoUseWorkspaceTsdk = true,
+            },
+            typescript = {
+              preferences = {
+                -- 去掉 import 路径的文件后缀 (.ts/.js) 和 /index
+                -- "minimal": ./foo.ts → ./foo, ./dir/index → ./dir
+                importModuleSpecifierEnding = "minimal",
+              },
             },
           },
         },
