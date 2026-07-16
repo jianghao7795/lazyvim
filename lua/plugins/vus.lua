@@ -43,8 +43,17 @@ return {
         -- vue_ls (Volar 3.x): 负责 .vue 文件中的 CSS/HTML 以及 template 类型检查
         -- TypeScript 部分通过 tsserver/request 转发给 vtsls 处理
         vue_ls = {
+          -- 显式启用，mason-lspconfig 才能自动 start 此 server
+          enabled = true,
           -- vite 项目没有 vue.config.js，添加 vite 配置文件作为 root marker
           root_markers = { "package.json", "vite.config.ts", "vite.config.js" },
+          init_options = {
+            vue = {
+              -- 启用 hybridMode 会导致 vue_ls 尝试自行处理 TS，与 vtsls 冲突
+              -- 保持 false（默认），让 TypeScript 交由 vtsls 处理
+              hybridMode = false,
+            },
+          },
         },
         -- vtsls: TypeScript LSP，负责 .vue 文件中 <script> 和 template 表达式的类型分析
         vtsls = {
