@@ -59,7 +59,8 @@ return {
         vtsls = {
           settings = {
             vtsls = {
-              autoUseWorkspaceTsdk = true,
+              -- 使用 vtsls 自带的 TS；旧项目的 TS 4.x 会让 Vue 3.x 插件的定义跳转回退到 *.vue 声明。
+              autoUseWorkspaceTsdk = false,
             },
             typescript = {
               preferences = {
@@ -102,8 +103,7 @@ return {
       vtsls.settings = vtsls.settings or {}
       vtsls.settings.vtsls = vtsls.settings.vtsls or {}
       vtsls.settings.vtsls.tsserver = vtsls.settings.vtsls.tsserver or {}
-      vtsls.settings.vtsls.tsserver.globalPlugins =
-        vtsls.settings.vtsls.tsserver.globalPlugins or {}
+      vtsls.settings.vtsls.tsserver.globalPlugins = vtsls.settings.vtsls.tsserver.globalPlugins or {}
 
       -- 移除所有已存在的 @vue/typescript-plugin（lang.vue extra 添加的路径是错误的）
       local new_plugins = {}
